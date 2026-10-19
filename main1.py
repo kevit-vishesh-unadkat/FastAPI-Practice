@@ -1,4 +1,5 @@
 from typing import Annotated, Optional
+from unittest import result
 
 from fastapi import FastAPI , HTTPException
 from pydantic import BaseModel,Field
@@ -89,3 +90,19 @@ def delete_student(student_id:str):
     return{
         JSONResponse(status_code=200,content={"message":"student deleted successfully"})
     }
+
+# PATCH: Update specific student fields
+@app.patch("/students/{student_id}")
+def patch_student(student_id: str, student: dict):
+    if not ObjectId.is_valid(student_id):
+        raise HTTPException(status_code=400, detail="Invalid student ID")
+
+    result = students.update_one(
+        {"_id": ObjectId(student_id)},
+        {"$set": student}
+    )
+
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    return {"message": "Student updated successfully"}
