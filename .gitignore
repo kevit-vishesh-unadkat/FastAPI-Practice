@@ -2,3 +2,5 @@
 .__ipynb_checkpoints
 .git
 .venv
+.env
+__pycache__
