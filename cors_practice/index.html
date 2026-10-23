@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu CRUD</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .food {
+            background: white;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+
+        #message {
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Food Menu Management</h1>
+
+    <form id="foodForm">
+        <input id="name" placeholder="Food name" required>
+        <input id="price" type="number" min="0.01" step="0.01" placeholder="Price" required>
+        <button type="submit">Add Food</button>
+    </form>
+
+    <p id="message"></p>
+    <h2>Available Foods</h2>
+    <div id="foodList"></div>
+
+    <script>
+        const API = "http://127.0.0.1:8000";
+
+        const foodList = document.getElementById("foodList");
+        const message = document.getElementById("message");
+        const form = document.getElementById("foodForm");
+
+        async function loadFoods() {
+            try {
+                const response = await fetch(`${API}/foods`);
+
+                if (!response.ok) {
+                    throw new Error("Could not load foods");
+                }
+
+                const foods = await response.json();
+                foodList.replaceChildren();
+
+                foods.forEach(food => {
+                    const card = document.createElement("div");
+                    card.className = "food";
+
+                    const details = document.createElement("p");
+                    details.textContent =
+                        `${food.name} - ₹${food.price} (ID: ${food.id})`;
+
+                    const edit = document.createElement("button");
+                    edit.textContent = "Update";
+
+                    edit.onclick = async () => {
+                        const name = prompt("New food name:", food.name);
+                        if (name === null || !name.trim()) return;
+
+                        const price = prompt("New price:", food.price);
+                        if (price === null || price.trim() === "") return;
+
+                        const amount = Number(price);
+                        if (!Number.isFinite(amount) || amount <= 0) {
+                            message.textContent = "Enter a valid positive price.";
+                            return;
+                        }
+
+                        await sendRequest(
+                            `${API}/foods/${food.id}`,
+                            "PUT",
+                            { name: name.trim(), price: amount }
+                        );
+                    };
+
+                    const remove = document.createElement("button");
+                    remove.textContent = "Delete";
+
+                    remove.onclick = async () => {
+                        if (confirm(`Delete ${food.name}?`)) {
+                            await sendRequest(
+                                `${API}/foods/${food.id}`,
+                                "DELETE"
+                            );
+                        }
+                    };
+
+                    card.append(details, edit, remove);
+                    foodList.appendChild(card);
+                });
+
+            } catch (error) {
+                message.textContent =
+                    "Unable to load foods. Check the backend and browser console.";
+                console.error(error);
+            }
+        }
+
+        async function sendRequest(url, method, data = null) {
+            try {
+                const options = { method };
+
+                if (data !== null) {
+                    options.headers = {
+                        "Content-Type": "application/json"
+                    };
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(url, options);
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.detail || "Request failed"
+                    );
+                }
+
+                message.textContent =
+                    result.message || "Operation successful!";
+
+                await loadFoods();
+
+            } catch (error) {
+                message.textContent = error.message;
+                console.error(error);
+            }
+        }
+
+        form.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const price = Number(
+                document.getElementById("price").value
+            );
+
+            if (!name || !Number.isFinite(price) || price <= 0) {
+                message.textContent =
+                    "Enter a food name and a positive price.";
+                return;
+            }
+
+            await sendRequest(`${API}/foods`, "POST", { name, price });
+            form.reset();
+        });
+
+        loadFoods();
+    </script>
+
+</body>
+
+</html>
