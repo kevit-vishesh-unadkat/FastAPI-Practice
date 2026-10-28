@@ -2,7 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    app_name: str = "TicketHub"
+    app_name: str = "app"
     mongodb_url: str
     database_name: str = "tickethub"
     cors_origins: str = "http://localhost:3000"
