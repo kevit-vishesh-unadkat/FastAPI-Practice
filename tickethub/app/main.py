@@ -1,3 +1,26 @@
+# from contextlib import asynccontextmanager
+
+# from fastapi import FastAPI
+# from fastapi.middleware.cors import CORSMiddleware
+
+# from pymongo.errors import DuplicateKeyError
+
+# from tickethub.app.core.config import settings
+# from tickethub.app.core.database import lifespan as database_lifespan
+# from tickethub.app.core.errors import (
+#     AppError,
+#     app_error_handler,
+#     validation_error_handler,
+#     duplicate_key_handler,
+#     unexpected_error_handler,
+# )
+# from tickethub.app.core.middleware import RequestIDMiddleware
+# from tickethub.app.routers import users
+# from tickethub.app.routers import bookings, events
+
+# from app.core.config import settings
+
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -15,7 +38,7 @@ from app.core.errors import (
     unexpected_error_handler,
 )
 from app.core.middleware import RequestIDMiddleware
-from app.routers import users, events, bookings
+from app.routers import users, bookings, events
 
 
 @asynccontextmanager

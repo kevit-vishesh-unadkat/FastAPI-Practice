@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from app.repo.user_repository import serialize
+from tickethub.app.repo.user_repository import serialize
 
 
 class BookingRepository:

@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from pymongo import AsyncMongoClient, ASCENDING, TEXT, DESCENDING
 
-from app.core.config import settings
+from tickethub.app.core.config import settings
 
 
 @asynccontextmanager

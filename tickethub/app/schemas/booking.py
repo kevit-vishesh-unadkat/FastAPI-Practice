@@ -3,7 +3,7 @@ from typing import Literal
 
 from pydantic import Field
 
-from app.schemas.common import StrictSchema
+from tickethub.app.schemas.common import StrictSchema
 
 
 class BookingCreate(StrictSchema):

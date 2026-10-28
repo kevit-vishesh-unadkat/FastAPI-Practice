@@ -1,7 +1,7 @@
 from bson import ObjectId
 from pymongo import ReturnDocument
 
-from app.repo.user_repository import serialize
+from tickethub.app.repo.user_repository import serialize
 
 
 class EventRepository:

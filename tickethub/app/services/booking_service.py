@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
-from app.core.errors import AppError
-from app.repo.booking_repository import BookingRepository
+from tickethub.app.core.errors import AppError
+from tickethub.app.repo.booking_repository import BookingRepository
 
 
 class BookingService:

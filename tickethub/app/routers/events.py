@@ -3,9 +3,9 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Header, Query, Request, Response
 
-from app.repo.event_repository import EventRepository
-from app.schemas.event import EventCreate, EventUpdate, EventRead
-from app.services.event_service import EventService
+from tickethub.app.repo.event_repository import EventRepository
+from tickethub.app.schemas.event import EventCreate, EventUpdate, EventRead
+from tickethub.app.services.event_service import EventService
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
@@ -71,7 +71,7 @@ async def update_event(
     service: Service,
     if_match: Annotated[str | None, Header()] = None,
 ):
-    from app.core.errors import AppError
+    from tickethub.app.core.errors import AppError
 
     if if_match is None:
         raise AppError(

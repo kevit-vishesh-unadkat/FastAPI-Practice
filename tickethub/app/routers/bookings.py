@@ -2,10 +2,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query, Request, Response
 
-from app.core.errors import AppError
-from app.repo.booking_repository import BookingRepository
-from app.schemas.booking import BookingCreate, BookingRead
-from app.services.booking_service import BookingService
+from tickethub.app.core.errors import AppError
+from tickethub.app.repo.booking_repository import BookingRepository
+from tickethub.app.schemas.booking import BookingCreate, BookingRead
+from tickethub.app.services.booking_service import BookingService
 
 router = APIRouter(prefix="/bookings", tags=["Bookings"])
 

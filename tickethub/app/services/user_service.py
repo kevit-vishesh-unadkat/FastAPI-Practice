@@ -1,5 +1,5 @@
-from app.core.errors import AppError
-from app.repo.user_repository import UserRepository
+from tickethub.app.core.errors import AppError
+from tickethub.app.repo.user_repository import UserRepository
 
 
 class UserService:

@@ -1,5 +1,5 @@
-from app.core.errors import AppError
-from app.repositories.event_repository import EventRepository
+from tickethub.app.core.errors import AppError
+from app.repo.event_repository import EventRepository
 
 EVENT_TRANSITIONS = {
     "draft": {"published", "cancelled"},
@@ -61,7 +61,7 @@ class EventService:
         merged = {**current, **changes}
 
         # Validate cross-field constraints against the complete updated event.
-        from app.schemas.event import EventCreate
+        from tickethub.app.schemas.event import EventCreate
 
         try:
             EventCreate.model_validate({

@@ -2,9 +2,9 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, Request, Query, Response, status
 
-from app.repo.user_repository import UserRepository
-from app.schemas.users import UserCreate, UserUpdate, UserRead
-from app.services.user_service import UserService
+from tickethub.app.repo.user_repository import UserRepository
+from tickethub.app.schemas.users import UserCreate, UserUpdate, UserRead
+from tickethub.app.services.user_service import UserService
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
